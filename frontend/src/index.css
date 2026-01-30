@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@layer components {
+  .dashboard-container {
+    @apply min-h-screen bg-slate-50 font-sans;
+  }
+
+  .nav-bar {
+    @apply bg-white px-6 py-4 shadow-sm mb-8;
+  }
+
+  .nav-link {
+    @apply text-sm font-medium text-gray-400 hover:text-blue-600 transition-colors;
+  }
+
+  .nav-link-active {
+    @apply text-sm font-medium text-blue-600;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm p-6;
+  }
+
+  .section-title {
+    @apply text-xl font-bold text-gray-800 mb-6;
+  }
+
+  .form-group {
+    @apply space-y-1;
+  }
+
+  .form-label {
+    @apply block text-sm font-semibold text-gray-700 ml-1;
+  }
+
+  .form-input {
+    @apply w-full px-3 py-2.5 bg-white border border-gray-200 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm;
+  }
+
+  .form-input-icon {
+    @apply pl-10;
+  }
+
+  .form-select {
+    @apply appearance-none cursor-pointer pr-10 pl-10;
+  }
+
+  .input-icon-wrapper {
+    @apply relative;
+  }
+
+  .input-icon-left {
+    @apply absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400;
+  }
+
+  .input-icon-right {
+    @apply absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400;
+  }
+
+  .btn-primary {
+    @apply w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2;
+  }
+
+  .badge-overlay {
+    @apply absolute top-4 left-1/2 -translate-x-1/2 bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold shadow-sm border border-blue-100 flex items-center gap-2 z-10;
+  }
+
+  /* Hide default browser icons for date/time inputs to avoid overlap */
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    @apply opacity-0 absolute right-0 w-8 h-full cursor-pointer;
+  }
+}
