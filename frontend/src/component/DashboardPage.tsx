@@ -25,16 +25,16 @@ function DashboardPage() {
 
   return (
     <div className="dashboard-container pt-12">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 px-6 pb-6">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 grid-cols-12 gap-8 px-6 pb-6">
         
-        <div className="lg:col-span-4">
+        <div className="col-span-4">
           <div className="card">
             <h2 className="section-title">Search Parameters</h2>
             <MetricsForm onSubmit={onSubmit}/>
           </div>
         </div>
 
-        <div className="lg:col-span-8">
+        <div className="col-span-8">
            <div className="card min-h-[500px] relative">
              <div className="flex items-center justify-between mb-6">
                <h2 className="section-title">Analysis Result: Request Frequency over Time</h2>

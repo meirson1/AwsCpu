@@ -25,6 +25,21 @@ export default function MetricsForm({ onSubmit }: MetricsFormProps) {
             return;
         }
 
+        if (!startDate || !startTime) {
+            setError("Start date and time are required");
+            return;
+        }
+
+        if (!endDate || !endTime) {
+            setError("End date and time are required");
+            return;
+        }
+
+        if (!interval) {
+            setError("Interval is required");
+            return;
+        }
+
         const startISO = `${startDate}T${startTime}:00`;
         const endISO = `${endDate}T${endTime}:00`;
         
@@ -32,18 +47,18 @@ export default function MetricsForm({ onSubmit }: MetricsFormProps) {
         const end = new Date(endISO);
         const intVal = parseInt(interval, 10);
 
+        if (isNaN(intVal) || intVal <= 0) {
+            setError("Interval must be a positive number");
+            return;
+        }
+
         if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-             setError("Invalid start or end time");
+             setError("Invalid start or end time format");
              return;
         }
 
         if (start >= end) {
             setError("Start time must be strictly before end time");
-            return;
-        }
-
-        if (isNaN(intVal) || intVal <= 0) {
-            setError("Interval must be positive");
             return;
         }
 
