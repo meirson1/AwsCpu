@@ -50,8 +50,7 @@ export default function MetricsForm({ className = "" }: MetricsFormProps) {
     return (
         <form onSubmit={handleSubmit(onFormSubmit)} className={`bg-white p-6 rounded-lg shadow-sm h-full flex flex-col ${className}`}>
             <MetricsFormHeader 
-                title="AWS CPU Metrics"
-                description="Enter the details below to fetch CPU metrics"
+                title="Search Parameters"
             >
                 {customError && (
                     <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded text-sm">
@@ -61,7 +60,7 @@ export default function MetricsForm({ className = "" }: MetricsFormProps) {
             </MetricsFormHeader>
 
             <div className="flex-1 space-y-5">
-                <MetricsFormContent register={register} errors={errors} />
+            <MetricsFormContent register={register} errors={errors} />
             </div>
             
             <MetricsFormFooter>

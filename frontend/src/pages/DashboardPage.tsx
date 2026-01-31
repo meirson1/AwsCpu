@@ -7,6 +7,9 @@ export default function DashboardPage() {
 
   return (
     <div className="dashboard-container pt-12">
+      <div className="w-full py-10">
+        <h1 className="text-3xl font-bold text-center text-gray-900">AWS CPU Metrics</h1>
+      </div>
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 px-6 pb-6 items-stretch">
         
         <div className="col-span-12 md:col-span-4 flex flex-col">
