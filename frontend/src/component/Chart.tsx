@@ -33,14 +33,15 @@ export default function Chart() {
   const { metrics, activeIp: ip } = useMetricsStore();
 
   const data = useMemo(() => {
-    const labels = metrics.map((m: MetricDataPoint) => new Date(m.Timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    const sortedMetrics = [...metrics].sort((a, b) => new Date(a.Timestamp).getTime() - new Date(b.Timestamp).getTime());
+    const labels = sortedMetrics.map((m: MetricDataPoint) => new Date(m.Timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     
     return {
       labels,
       datasets: [
         {
-          label: 'Request Count',
-          data: metrics.map((m: MetricDataPoint) => m.Value),
+          label: 'CPU Usage (%)',
+          data: sortedMetrics.map((m: MetricDataPoint) => m.Value),
           borderColor: '#3b82f6',
           backgroundColor: (context: ScriptableContext<"line">) => {
             const ctx = context.chart.ctx;
@@ -104,7 +105,7 @@ export default function Chart() {
         },
         title: {
             display: true,
-            text: 'Request Count',
+            text: 'CPU Usage (%)',
             color: '#9ca3af',
             font: { size: 12 }
         }

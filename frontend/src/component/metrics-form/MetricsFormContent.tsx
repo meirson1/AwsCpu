@@ -67,6 +67,21 @@ export default function MetricsFormContent({ register, errors }: MetricsFormCont
                     />
                 </div>
             </div>
+
+            <FormInput
+                label="Interval (seconds)"
+                id="interval"
+                placeholder="60"
+                icon={Clock}
+                registration={register("interval", { 
+                    required: "Interval is required",
+                    pattern: {
+                        value: /^[0-9]+$/,
+                        message: "Interval must be a number"
+                    }
+                })}
+                error={errors.interval}
+            />
         </>
     );
 }

@@ -1,4 +1,10 @@
-import { IsString, IsNotEmpty, IsDateString, IsNumber } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsDateString,
+  IsNumber,
+  Min,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class GetMetricsDto {
@@ -13,6 +19,7 @@ export class GetMetricsDto {
   endTime: string;
 
   @IsNumber()
+  @Min(1)
   @Type(() => Number)
   interval: number;
 }
