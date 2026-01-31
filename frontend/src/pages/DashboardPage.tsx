@@ -18,9 +18,7 @@ export default function DashboardPage() {
 
         <div className="col-span-8">
            <div className="card min-h-[500px] relative">
-             <div className="flex items-center justify-between mb-6">
-               <h2 className="section-title">Analysis Result: Request Frequency over Time</h2>
-             </div>
+             <h2 className="section-title">CPU Usage</h2>
              
              {loading ? (
                 <div className="flex items-center justify-center h-64 text-gray-500">Loading metrics...</div>

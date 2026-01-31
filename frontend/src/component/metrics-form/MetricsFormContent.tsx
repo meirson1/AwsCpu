@@ -30,7 +30,7 @@ export default function MetricsFormContent({ register, errors }: MetricsFormCont
 
             <div className="form-group">
                 <label className="form-label">Start Period</label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <FormInput
                         type="date"
                         icon={Calendar}
@@ -50,7 +50,7 @@ export default function MetricsFormContent({ register, errors }: MetricsFormCont
 
             <div className="form-group">
                 <label className="form-label">End Period</label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <FormInput
                         type="date"
                         icon={Calendar}
@@ -67,21 +67,6 @@ export default function MetricsFormContent({ register, errors }: MetricsFormCont
                     />
                 </div>
             </div>
-
-            <FormInput
-                label="Interval (seconds)"
-                id="interval"
-                placeholder="60"
-                icon={Clock}
-                registration={register("interval", { 
-                    required: "Interval is required",
-                    pattern: {
-                        value: /^[0-9]+$/,
-                        message: "Interval must be a number"
-                    }
-                })}
-                error={errors.interval}
-            />
         </>
     );
 }

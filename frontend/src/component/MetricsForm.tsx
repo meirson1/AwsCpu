@@ -44,7 +44,7 @@ export default function MetricsForm() {
         <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-5">
             <MetricsFormHeader customError={customError} />
             <MetricsFormContent register={register} errors={errors} />
-            <MetricsFormFooter />
+            <MetricsFormFooter register={register} errors={errors} />
         </form>
     );
 }
