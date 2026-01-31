@@ -1,45 +1,28 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Network, Calendar, Search, Clock } from 'lucide-react';
+import { useState } from "react";
 
 interface MetricsFormProps {
     onSubmit: (ip: string, startTime: string, endTime: string, interval: string) => void;
 }
 
+interface FormInputs {
+    ip: string;
+    startDate: string;
+    startTime: string;
+    endDate: string;
+    endTime: string;
+    interval: string;
+}
+
 export default function MetricsForm({ onSubmit }: MetricsFormProps) {
-    const [ip, setIp] = useState("");
+    const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
+    const [customError, setCustomError] = useState<string | null>(null);
 
-    const [startDate, setStartDate] = useState("");
-    const [startTime, setStartTime] = useState("");
-    const [endDate, setEndDate] = useState("");
-    const [endTime, setEndTime] = useState("");
-    
-    const [interval, setInterval] = useState("");
-    const [error, setError] = useState<string | null>(null);
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setError(null);
-
-        if (!ip) {
-            setError("IP address is required");
-            return;
-        }
-
-        if (!startDate || !startTime) {
-            setError("Start date and time are required");
-            return;
-        }
-
-        if (!endDate || !endTime) {
-            setError("End date and time are required");
-            return;
-        }
-
-        if (!interval) {
-            setError("Interval is required");
-            return;
-        }
-
+    const onFormSubmit = (data: FormInputs) => {
+        setCustomError(null);
+        const { ip, startDate, startTime, endDate, endTime, interval } = data;
+        
         const startISO = `${startDate}T${startTime}:00`;
         const endISO = `${endDate}T${endTime}:00`;
         
@@ -47,18 +30,18 @@ export default function MetricsForm({ onSubmit }: MetricsFormProps) {
         const end = new Date(endISO);
         const intVal = parseInt(interval, 10);
 
-        if (isNaN(intVal) || intVal <= 0) {
-            setError("Interval must be a positive number");
-            return;
-        }
-
         if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-             setError("Invalid start or end time format");
+             setCustomError("Invalid start or end time format");
              return;
         }
 
         if (start >= end) {
-            setError("Start time must be strictly before end time");
+            setCustomError("Start time must be strictly before end time");
+            return;
+        }
+
+        if (isNaN(intVal) || intVal <= 0) {
+            setCustomError("Interval must be a positive number");
             return;
         }
 
@@ -66,10 +49,10 @@ export default function MetricsForm({ onSubmit }: MetricsFormProps) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-5">
-            {error && (
+        <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-5">
+            {customError && (
                 <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded text-sm mb-4">
-                    {error}
+                    {customError}
                 </div>
             )}
             
@@ -83,11 +66,11 @@ export default function MetricsForm({ onSubmit }: MetricsFormProps) {
                         id="ip"
                         type="text" 
                         placeholder="172.31.88.161" 
-                        value={ip}
-                        onChange={(e) => setIp(e.target.value)}
-                        className="form-input form-input-icon"
+                        className={`form-input form-input-icon ${errors.ip ? 'border-red-500' : ''}`}
+                        {...register("ip", { required: "IP address is required" })}
                     />
                 </div>
+                {errors.ip && <p className="text-red-500 text-xs mt-1">{errors.ip.message}</p>}
             </div>
 
             <div className="form-group">
@@ -99,9 +82,8 @@ export default function MetricsForm({ onSubmit }: MetricsFormProps) {
                         </div>
                         <input 
                             type="date"
-                            value={startDate}
-                            onChange={(e) => setStartDate(e.target.value)}
-                            className="form-input form-input-icon !px-2 !pl-9"
+                            className={`form-input form-input-icon !px-2 !pl-9 ${errors.startDate ? 'border-red-500' : ''}`}
+                            {...register("startDate", { required: "Start date is required" })}
                         />
                     </div>
                     <div className="input-icon-wrapper">
@@ -110,12 +92,16 @@ export default function MetricsForm({ onSubmit }: MetricsFormProps) {
                         </div>
                         <input 
                             type="time"
-                            value={startTime}
-                            onChange={(e) => setStartTime(e.target.value)}
-                            className="form-input form-input-icon !px-2 !pl-8"
+                            className={`form-input form-input-icon !px-2 !pl-8 ${errors.startTime ? 'border-red-500' : ''}`}
+                            {...register("startTime", { required: "Start time is required" })}
                         />
                     </div>
                 </div>
+                {(errors.startDate || errors.startTime) && (
+                    <p className="text-red-500 text-xs mt-1">
+                        {errors.startDate?.message || errors.startTime?.message}
+                    </p>
+                )}
             </div>
 
             <div className="form-group">
@@ -127,9 +113,8 @@ export default function MetricsForm({ onSubmit }: MetricsFormProps) {
                         </div>
                         <input 
                             type="date"
-                            value={endDate}
-                            onChange={(e) => setEndDate(e.target.value)}
-                            className="form-input form-input-icon !px-2 !pl-8"
+                            className={`form-input form-input-icon !px-2 !pl-8 ${errors.endDate ? 'border-red-500' : ''}`}
+                            {...register("endDate", { required: "End date is required" })}
                         />
                     </div>
                     <div className="input-icon-wrapper">
@@ -138,15 +123,17 @@ export default function MetricsForm({ onSubmit }: MetricsFormProps) {
                         </div>
                         <input 
                             type="time"
-                            value={endTime}
-                            onChange={(e) => setEndTime(e.target.value)}
-                            className="form-input form-input-icon !px-2 !pl-8"
+                            className={`form-input form-input-icon !px-2 !pl-8 ${errors.endTime ? 'border-red-500' : ''}`}
+                            {...register("endTime", { required: "End time is required" })}
                         />
                     </div>
                 </div>
+                {(errors.endDate || errors.endTime) && (
+                    <p className="text-red-500 text-xs mt-1">
+                        {errors.endDate?.message || errors.endTime?.message}
+                    </p>
+                )}
             </div>
-
-
 
             <div className="form-group">
                 <label htmlFor="interval" className="form-label">Interval (seconds)</label>
@@ -158,11 +145,17 @@ export default function MetricsForm({ onSubmit }: MetricsFormProps) {
                         id="interval"
                         type="text" 
                         placeholder="60" 
-                        value={interval}
-                        onChange={(e) => setInterval(e.target.value)}
-                        className="form-input form-input-icon"
+                        className={`form-input form-input-icon ${errors.interval ? 'border-red-500' : ''}`}
+                        {...register("interval", { 
+                            required: "Interval is required",
+                            pattern: {
+                                value: /^[0-9]+$/,
+                                message: "Interval must be a number"
+                            }
+                        })}
                     />
                 </div>
+                {errors.interval && <p className="text-red-500 text-xs mt-1">{errors.interval.message}</p>}
             </div>
 
             <div className="pt-4">
