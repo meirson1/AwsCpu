@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Network, Calendar, Search, Clock } from 'lucide-react';
 import { useState } from "react";
+import FormInput from "./FormInput";
 
 interface MetricsFormProps {
     onSubmit: (ip: string, startTime: string, endTime: string, interval: string) => void;
@@ -56,107 +57,69 @@ export default function MetricsForm({ onSubmit }: MetricsFormProps) {
                 </div>
             )}
             
-            <div className="form-group">
-                <label htmlFor="ip" className="form-label">IP Address</label>
-                <div className="input-icon-wrapper">
-                    <div className="input-icon-left">
-                        <Network size={18} />
-                    </div>
-                    <input 
-                        id="ip"
-                        type="text" 
-                        placeholder="172.31.88.161" 
-                        className={`form-input form-input-icon ${errors.ip ? 'border-red-500' : ''}`}
-                        {...register("ip", { required: "IP address is required" })}
-                    />
-                </div>
-                {errors.ip && <p className="text-red-500 text-xs mt-1">{errors.ip.message}</p>}
-            </div>
+            <FormInput
+                label="IP Address"
+                id="ip"
+                placeholder="172.31.88.161"
+                icon={Network}
+                registration={register("ip", { required: "IP address is required" })}
+                error={errors.ip}
+            />
 
             <div className="form-group">
                 <label className="form-label">Start Period</label>
                 <div className="grid grid-cols-2 gap-2">
-                    <div className="input-icon-wrapper">
-                        <div className="input-icon-left">
-                            <Calendar size={16} />
-                        </div>
-                        <input 
-                            type="date"
-                            className={`form-input form-input-icon !px-2 !pl-9 ${errors.startDate ? 'border-red-500' : ''}`}
-                            {...register("startDate", { required: "Start date is required" })}
-                        />
-                    </div>
-                    <div className="input-icon-wrapper">
-                        <div className="input-icon-left">
-                            <Clock size={16} />
-                        </div>
-                        <input 
-                            type="time"
-                            className={`form-input form-input-icon !px-2 !pl-8 ${errors.startTime ? 'border-red-500' : ''}`}
-                            {...register("startTime", { required: "Start time is required" })}
-                        />
-                    </div>
+                    <FormInput
+                        type="date"
+                        icon={Calendar}
+                        className="!px-2 !pl-9"
+                        registration={register("startDate", { required: "Start date is required" })}
+                        error={errors.startDate}
+                    />
+                    <FormInput
+                        type="time"
+                        icon={Clock}
+                        className="!px-2 !pl-8"
+                        registration={register("startTime", { required: "Start time is required" })}
+                        error={errors.startTime}
+                    />
                 </div>
-                {(errors.startDate || errors.startTime) && (
-                    <p className="text-red-500 text-xs mt-1">
-                        {errors.startDate?.message || errors.startTime?.message}
-                    </p>
-                )}
             </div>
 
             <div className="form-group">
                 <label className="form-label">End Period</label>
                 <div className="grid grid-cols-2 gap-2">
-                    <div className="input-icon-wrapper">
-                        <div className="input-icon-left">
-                            <Calendar size={16} />
-                        </div>
-                        <input 
-                            type="date"
-                            className={`form-input form-input-icon !px-2 !pl-8 ${errors.endDate ? 'border-red-500' : ''}`}
-                            {...register("endDate", { required: "End date is required" })}
-                        />
-                    </div>
-                    <div className="input-icon-wrapper">
-                        <div className="input-icon-left">
-                            <Clock size={16} />
-                        </div>
-                        <input 
-                            type="time"
-                            className={`form-input form-input-icon !px-2 !pl-8 ${errors.endTime ? 'border-red-500' : ''}`}
-                            {...register("endTime", { required: "End time is required" })}
-                        />
-                    </div>
-                </div>
-                {(errors.endDate || errors.endTime) && (
-                    <p className="text-red-500 text-xs mt-1">
-                        {errors.endDate?.message || errors.endTime?.message}
-                    </p>
-                )}
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="interval" className="form-label">Interval (seconds)</label>
-                <div className="input-icon-wrapper">
-                    <div className="input-icon-left">
-                        <Clock size={18} />
-                    </div>
-                    <input 
-                        id="interval"
-                        type="text" 
-                        placeholder="60" 
-                        className={`form-input form-input-icon ${errors.interval ? 'border-red-500' : ''}`}
-                        {...register("interval", { 
-                            required: "Interval is required",
-                            pattern: {
-                                value: /^[0-9]+$/,
-                                message: "Interval must be a number"
-                            }
-                        })}
+                    <FormInput
+                        type="date"
+                        icon={Calendar}
+                        className="!px-2 !pl-9"
+                        registration={register("endDate", { required: "End date is required" })}
+                        error={errors.endDate}
+                    />
+                    <FormInput
+                        type="time"
+                        icon={Clock}
+                        className="!px-2 !pl-8"
+                        registration={register("endTime", { required: "End time is required" })}
+                        error={errors.endTime}
                     />
                 </div>
-                {errors.interval && <p className="text-red-500 text-xs mt-1">{errors.interval.message}</p>}
             </div>
+
+            <FormInput
+                label="Interval (seconds)"
+                id="interval"
+                placeholder="60"
+                icon={Clock}
+                registration={register("interval", { 
+                    required: "Interval is required",
+                    pattern: {
+                        value: /^[0-9]+$/,
+                        message: "Interval must be a number"
+                    }
+                })}
+                error={errors.interval}
+            />
 
             <div className="pt-4">
                 <button type="submit" className="btn-primary">
