@@ -1,13 +1,13 @@
 
 import type { ReactNode } from 'react';
 
-interface MetricsFormHeaderProps {
+interface FormHeaderProps {
     title: string;
     description?: string;
     children?: ReactNode;
 }
 
-export default function MetricsFormHeader({ title, description, children }: MetricsFormHeaderProps) {
+export default function FormHeader({ title, description, children }: FormHeaderProps) {
     return (
         <div className="mb-6">
             <h2 className="text-2xl font-bold text-gray-900">{title}</h2>

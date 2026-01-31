@@ -11,12 +11,12 @@ export interface FormInputs {
     interval: string;
 }
 
-interface MetricsFormContentProps {
+interface FormContentProps {
     register: UseFormRegister<FormInputs>;
     errors: FieldErrors<FormInputs>;
 }
 
-export default function MetricsFormContent({ register, errors }: MetricsFormContentProps) {
+export default function FormContent({ register, errors }: FormContentProps) {
     return (
         <>
             <FormInput

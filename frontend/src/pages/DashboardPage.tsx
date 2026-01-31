@@ -14,7 +14,7 @@ export default function DashboardPage() {
         
         <div className="col-span-12 md:col-span-4 flex flex-col">
           <div className="card flex-1 flex flex-col">
-            <MetricsForm className="!shadow-none !bg-transparent !p-0 flex-1" />
+            <MetricsForm className="shadow-none bg-transparent p-0 flex-1" />
           </div>
         </div>
 

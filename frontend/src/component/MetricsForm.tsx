@@ -2,10 +2,10 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { useMetricsStore } from "../store/useMetricsStore";
-import MetricsFormHeader from "./metrics-form/MetricsFormHeader";
-import MetricsFormContent from "./metrics-form/MetricsFormContent";
-import type { FormInputs } from "./metrics-form/MetricsFormContent";
-import MetricsFormFooter from "./metrics-form/MetricsFormFooter";
+import FormHeader from "./metrics-form/FormHeader";
+import FormContent from "./metrics-form/FormContent";
+import type { FormInputs } from "./metrics-form/FormContent";
+import FormFooter from "./metrics-form/FormFooter";
 import Button from "./Button";
 
 
@@ -49,7 +49,7 @@ export default function MetricsForm({ className = "" }: MetricsFormProps) {
 
     return (
         <form onSubmit={handleSubmit(onFormSubmit)} className={`bg-white p-6 rounded-lg shadow-sm h-full flex flex-col ${className}`}>
-            <MetricsFormHeader 
+            <FormHeader 
                 title="Search Parameters"
             >
                 {customError && (
@@ -57,13 +57,13 @@ export default function MetricsForm({ className = "" }: MetricsFormProps) {
                         {customError}
                     </div>
                 )}
-            </MetricsFormHeader>
+            </FormHeader>
 
             <div className="flex-1 space-y-5">
-            <MetricsFormContent register={register} errors={errors} />
+            <FormContent register={register} errors={errors} />
             </div>
             
-            <MetricsFormFooter>
+            <FormFooter>
                 <Button 
                     type="submit" 
                     icon={Search}
@@ -71,7 +71,7 @@ export default function MetricsForm({ className = "" }: MetricsFormProps) {
                 >
                     Search Metrics
                 </Button>
-            </MetricsFormFooter>
+            </FormFooter>
         </form>
     );
 }
