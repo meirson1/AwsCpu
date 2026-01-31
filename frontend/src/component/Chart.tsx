@@ -13,8 +13,9 @@ import {
 import { Line } from 'react-chartjs-2';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import { Network } from 'lucide-react';
-import { useMetrics } from "../context/MetricsContext";
+import { useMetricsStore } from "../store/useMetricsStore";
 import { useMemo } from 'react';
+import type { MetricDataPoint } from '../api/metrics';
 
 ChartJS.register(
   CategoryScale,
@@ -29,17 +30,17 @@ ChartJS.register(
 );
 
 export default function Chart() {
-  const { metrics, activeIp: ip } = useMetrics();
+  const { metrics, activeIp: ip } = useMetricsStore();
 
   const data = useMemo(() => {
-    const labels = metrics.map(m => new Date(m.Timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    const labels = metrics.map((m: MetricDataPoint) => new Date(m.Timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     
     return {
       labels,
       datasets: [
         {
           label: 'Request Count',
-          data: metrics.map(m => m.Value),
+          data: metrics.map((m: MetricDataPoint) => m.Value),
           borderColor: '#3b82f6',
           backgroundColor: (context: ScriptableContext<"line">) => {
             const ctx = context.chart.ctx;

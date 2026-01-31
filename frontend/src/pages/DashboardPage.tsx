@@ -1,10 +1,9 @@
-import MetricsForm from './MetricsForm';
-import Chart from './Chart';
-import { useMetrics } from '../context/MetricsContext';
-import { MetricsProvider } from '../context/MetricsProvider';
+import MetricsForm from '../component/MetricsForm';
+import Chart from '../component/Chart';
+import { useMetricsStore } from '../store/useMetricsStore';
 
-function DashboardContent() {
-  const { metrics, loading, error } = useMetrics();
+export default function DashboardPage() {
+  const { metrics, loading, error } = useMetricsStore();
 
   return (
     <div className="dashboard-container pt-12">
@@ -42,13 +41,3 @@ function DashboardContent() {
     </div>
   );
 }
-
-function DashboardPage() {
-  return (
-    <MetricsProvider>
-      <DashboardContent />
-    </MetricsProvider>
-  );
-}
-
-export default DashboardPage;

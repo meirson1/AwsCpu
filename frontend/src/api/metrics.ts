@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { apiClient } from './client';
 
 export interface MetricDataPoint {
     Timestamp: string;
@@ -12,8 +12,7 @@ export interface MetricsResponse {
 }
 
 export const getMetrics = async (ip: string, startTime: string, endTime: string, interval: string): Promise<MetricsResponse> => {
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-    const response = await axios.get<MetricsResponse>(`${apiUrl}/metrics/cpu`, {
+    const response = await apiClient.get<MetricsResponse>('/metrics/cpu', {
         params: {
             ip,
             startTime,
