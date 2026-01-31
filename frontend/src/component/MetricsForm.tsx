@@ -2,10 +2,7 @@ import { useForm } from "react-hook-form";
 import { Network, Calendar, Search, Clock } from 'lucide-react';
 import { useState } from "react";
 import FormInput from "./FormInput";
-
-interface MetricsFormProps {
-    onSubmit: (ip: string, startTime: string, endTime: string, interval: string) => void;
-}
+import { useMetrics } from "../context/MetricsContext";
 
 interface FormInputs {
     ip: string;
@@ -16,7 +13,8 @@ interface FormInputs {
     interval: string;
 }
 
-export default function MetricsForm({ onSubmit }: MetricsFormProps) {
+export default function MetricsForm() {
+    const { fetchMetrics } = useMetrics();
     const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
     const [customError, setCustomError] = useState<string | null>(null);
 
@@ -46,7 +44,7 @@ export default function MetricsForm({ onSubmit }: MetricsFormProps) {
             return;
         }
 
-        onSubmit(ip, startISO, endISO, interval);
+        fetchMetrics(ip, startISO, endISO, interval);
     };
 
     return (

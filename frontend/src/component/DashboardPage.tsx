@@ -1,27 +1,10 @@
-import { useState } from 'react';
 import MetricsForm from './MetricsForm';
 import Chart from './Chart';
-import { getMetrics, type MetricDataPoint } from '../api/metrics';
+import { useMetrics } from '../context/MetricsContext';
+import { MetricsProvider } from '../context/MetricsProvider';
 
-function DashboardPage() {
-  const [metrics, setMetrics] = useState<MetricDataPoint[]>([]);
-  const [activeIp, setActiveIp] = useState<string>("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const onSubmit = async (ip: string, startTime: string, endTime: string, interval: string) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await getMetrics(ip, startTime, endTime, interval);
-      setMetrics(response.metrics);
-      setActiveIp(ip);
-    } catch (error) {
-      setError(error as string);
-    } finally {
-      setLoading(false);
-    }
-  };
+function DashboardContent() {
+  const { metrics, loading, error } = useMetrics();
 
   return (
     <div className="dashboard-container pt-12">
@@ -30,7 +13,7 @@ function DashboardPage() {
         <div className="col-span-4">
           <div className="card">
             <h2 className="section-title">Search Parameters</h2>
-            <MetricsForm onSubmit={onSubmit}/>
+            <MetricsForm />
           </div>
         </div>
 
@@ -46,7 +29,7 @@ function DashboardPage() {
                 <>
                   {error && <div className="bg-red-50 text-red-700 p-4 rounded-lg mb-4">Error: {error}</div>}
                   {metrics.length > 0 ? (
-                    <Chart metrics={metrics} ip={activeIp} />
+                    <Chart />
                   ) : (
                     !error && <div className="text-center text-gray-500 py-20">No data found for the selected range.</div>
                   )}
@@ -57,7 +40,15 @@ function DashboardPage() {
 
       </div>
     </div>
-  )
+  );
+}
+
+function DashboardPage() {
+  return (
+    <MetricsProvider>
+      <DashboardContent />
+    </MetricsProvider>
+  );
 }
 
 export default DashboardPage;

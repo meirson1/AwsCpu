@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Chart as ChartJS, LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend, LineController, Filler, type ChartConfiguration } from 'chart.js';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import { Network } from 'lucide-react';
-import type { MetricDataPoint } from "../api/metrics";
+
 
 ChartJS.register(
   CategoryScale,
@@ -17,12 +17,10 @@ ChartJS.register(
   zoomPlugin
 );
 
-interface ChartProps {
-  metrics: MetricDataPoint[];
-  ip: string;
-}
+import { useMetrics } from "../context/MetricsContext";
 
-export default function Chart({ metrics, ip }: ChartProps) {
+export default function Chart() {
+    const { metrics, activeIp: ip } = useMetrics();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const chartRef = useRef<ChartJS | null>(null);
 
