@@ -6,31 +6,14 @@ interface MetricsFormProps {
 }
 
 export default function MetricsForm({ onSubmit }: MetricsFormProps) {
-    const [ip, setIp] = useState(import.meta.env.VITE_DEFAULT_IP || "");
+    const [ip, setIp] = useState("");
+
+    const [startDate, setStartDate] = useState("");
+    const [startTime, setStartTime] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [endTime, setEndTime] = useState("");
     
-    const splitDateTime = (isoString: string) => {
-        const [date, time] = isoString.split('T');
-        return { date, time: time.slice(0, 5) };
-    };
-
-    const toLocalISO = (date: Date) => {
-        const offset = date.getTimezoneOffset() * 60000; 
-        const localDate = new Date(date.getTime() - offset);
-        return localDate.toISOString().slice(0, 16);
-    };
-
-    const now = new Date();
-    const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
-
-    const startSplit = splitDateTime(toLocalISO(oneHourAgo));
-    const endSplit = splitDateTime(toLocalISO(now));
-
-    const [startDate, setStartDate] = useState(startSplit.date);
-    const [startTime, setStartTime] = useState(startSplit.time);
-    const [endDate, setEndDate] = useState(endSplit.date);
-    const [endTime, setEndTime] = useState(endSplit.time);
-    
-    const [interval, setInterval] = useState("60");
+    const [interval, setInterval] = useState("");
     const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
