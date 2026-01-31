@@ -1,6 +1,6 @@
 # AWS CPU Metrics Dashboard
 
-A professional, full-stack application designed to monitor and visualize CPU utilization metrics for AWS EC2 instances. This project demonstrates a clean architecture integrating a robust NestJS backend with a modern React frontend.
+A full-stack application designed to monitor and visualize CPU utilization metrics for AWS EC2 instances. This project demonstrates a clean architecture integrating a robust NestJS backend with a modern React frontend.
 
 ## 🚀 Project Overview
 
